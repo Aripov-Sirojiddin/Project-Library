@@ -40,8 +40,20 @@ function createBookCard(book) {
         bookInfo.textContent = book.info();
     });
 
+    //Add the ability to remove self from the library
+    const removeFromLibrary = document.createElement("button");
+    removeFromLibrary.textContent = "Remove book from library?"
+    removeFromLibrary.addEventListener("click", () => {
+        const index = myLibrary.findIndex(bookFromLib => bookFromLib.id === book.id);
+        if(index > -1) {
+            myLibrary.splice(index, 1);
+        }
+        booksDiv.removeChild(bookCardDiv);
+    });
+
     //Add to HTML tree
     bookCardDiv.appendChild(bookInfo);
+    bookCardDiv.appendChild(removeFromLibrary);
     bookCardDiv.appendChild(toggleRead);
 
     booksDiv.appendChild(bookCardDiv);
