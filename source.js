@@ -18,27 +18,6 @@ Book.prototype.info = function () {
         + `\nYou ${this.haveRead ? "have read this book." : "haven't finished this book yet."} `;
 }
 
-const harry = new Book(
-    "Harry",
-    "John",
-    492,
-    false
-);
-
-const JohnSon = new Book(
-    "Joe",
-    "Bitten",
-    139,
-    false
-)
-
-const Minecraft = new Book(
-    "Mine",
-    "Steve",
-    49482,
-    false
-)
-
 function createBookCard(book) {
     //Create the book card in the html tree.
     const booksDiv = document.getElementById("books-container");
@@ -61,8 +40,57 @@ function createBookCard(book) {
         bookInfo.textContent = book.info();
     });
 
+    //Add to HTML tree
     bookCardDiv.appendChild(bookInfo);
     bookCardDiv.appendChild(toggleRead);
 
     booksDiv.appendChild(bookCardDiv);
 }
+
+
+const harry = new Book(
+    "Harry",
+    "John",
+    492,
+    false
+);
+
+const JohnSon = new Book(
+    "Joe",
+    "Bitten",
+    139,
+    false
+);
+
+const Minecraft = new Book(
+    "Mine",
+    "Steve",
+    49482,
+    false
+);
+
+const dialog = document.getElementById("new-book-dialog");
+document.getElementById("new-book-btn").addEventListener("click", () => { dialog.showModal(); });
+document.getElementById("close-dialog").addEventListener("click", () => dialog.close());
+
+const newBookForm = document.getElementById("new-book-form");
+newBookForm.addEventListener("submit", e => {
+    e.preventDefault();
+    const formData = new FormData(newBookForm);
+    let add = true;
+    ["title", "author", "pages"].forEach(property => {
+        if (formData.get(property) === "") {
+            alert(`Enter the ${property}`);
+            add = false;
+        };
+    });
+    if (add) {
+        new Book(
+            formData.get("title"),
+            formData.get("author"),
+            formData.get("pages"),
+            false
+        )
+        dialog.close();
+    }
+});
