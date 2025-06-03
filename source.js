@@ -102,7 +102,8 @@ newBookForm.addEventListener("submit", e => {
             formData.get("author"),
             formData.get("pages"),
             false
-        )
+        );
+        newBookForm.reset();
         dialog.close();
     }
 });
