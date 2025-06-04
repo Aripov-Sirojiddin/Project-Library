@@ -1,21 +1,20 @@
 const myLibrary = [];
 
-function Book(title, author, pages, haveRead) {
-    if (!new.target) {
-        console.log("You forgot the \"new\" keyword when instantiating dummy!");
+class Book {
+    constructor(title, author, pages, haveRead) {
+        this.id = crypto.randomUUID();
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.haveRead = haveRead;
+        myLibrary.push(this);
+        createBookCard(this);
     }
-    this.id = crypto.randomUUID();
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.haveRead = haveRead;
-    myLibrary.push(this);
-    createBookCard(this);
-}
-//Info is not unique for each object this we define it in here to save memory
-Book.prototype.info = function () {
-    return `${this.title} by ${this.author} has ${this.pages} pages.`
-        + `\nYou ${this.haveRead ? "have read this book." : "haven't finished this book yet."} `;
+
+    info() {
+        return `${this.title} by ${this.author} has ${this.pages} pages.`
+            + `\nYou ${this.haveRead ? "have read this book." : "haven't finished this book yet."} `;
+    }
 }
 
 function createBookCard(book) {
@@ -45,7 +44,7 @@ function createBookCard(book) {
     removeFromLibrary.textContent = "Remove book from library?"
     removeFromLibrary.addEventListener("click", () => {
         const index = myLibrary.findIndex(bookFromLib => bookFromLib.id === book.id);
-        if(index > -1) {
+        if (index > -1) {
             myLibrary.splice(index, 1);
         }
         booksDiv.removeChild(bookCardDiv);
